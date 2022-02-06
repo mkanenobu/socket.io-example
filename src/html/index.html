@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      body {
+        margin: 0;
+        padding-bottom: 3rem;
+      }
+
+      #textarea {
+        margin: 1rem;
+        padding: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="textarea" rows="5" cols="30">Input here.</textarea>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      const textarea = document.getElementById("textarea");
+
+      textarea.addEventListener("input", (_e) => {
+        socket.emit("onchange", textarea.value);
+      });
+
+      socket.on("provide-from-server", (data) => {
+        console.log("Received data from server: ", data);
+        textarea.value = data;
+      });
+    </script>
+  </body>
+</html>
